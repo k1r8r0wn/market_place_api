@@ -7,7 +7,7 @@ Rails.application.routes.draw do
                   constraints: { subdomain: 'api' }, path: '/' do
     scope module: :v1 do
       # resources
-      resources :users, only: [:show, :create]
+      resources :users, only: [:show, :create, :update]
     end
   end
 end
