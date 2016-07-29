@@ -11,7 +11,7 @@ module Request
     end
 
     def api_response_format(format = Mime[:json])
-      request.headers['Accept'] = format
+      request.headers['Accept'] = "#{request.headers['Accept']}, #{format}"
       request.headers['Content-Type'] = format.to_s
     end
 
