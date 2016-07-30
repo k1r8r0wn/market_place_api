@@ -1,21 +1,21 @@
 require 'rails_helper'
 
 describe Api::V1::UsersController, type: :controller do
+  let(:user) { create(:user) } 
+
   describe 'GET #show' do
     before(:each) do
-      @user = create(:user) 
-      get :show, params: { id: @user.id }
+      get :show, params: { id: user.id }
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:email]).to eql @user.email
+      expect(json_response[:email]).to eql user.email
     end
 
     it { should respond_with 200 }
   end
 
   describe 'POST #create' do
-
     context 'when is successfully created' do
       before(:each) do
         @user_attributes = attributes_for(:user)
@@ -50,14 +50,9 @@ describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'PUT/PATCH #update' do
-
-    before(:each) do
-      @user = create(:user)
-    end
-
     context 'when is successfully updated' do
       before(:each) do
-        patch :update, params: { id: @user.id,
+        patch :update, params: { id: user.id,
                                  user: { email: 'newmail@example.com' } }
       end
 
@@ -70,7 +65,7 @@ describe Api::V1::UsersController, type: :controller do
 
     context 'when is not created' do
       before(:each) do
-        patch :update, params: { id: @user.id,
+        patch :update, params: { id: user.id,
                                  user: { email: 'bademail.com' } }
       end
 
@@ -88,8 +83,7 @@ describe Api::V1::UsersController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
-      @user = create(:user)
-      delete :destroy, params: { id: @user.id }
+      delete :destroy, params: { id: user.id }
     end
 
     it { should respond_with 204 }

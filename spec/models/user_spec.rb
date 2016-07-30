@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe User, type: :model do
-  before { @user = create(:user) }
-  
-  subject { @user }
+  subject { create(:user) }
 
   describe 'respond' do
     it { should respond_to(:email) }
@@ -23,21 +21,22 @@ describe User, type: :model do
   end
   
   describe 'when email is not present' do
-    before { @user.email = '' }
+    before { subject.email = '' }
     it { should_not be_valid }
   end
 
   describe '#generate_authentication_token!' do
     it 'generates a unique token' do
+      subject
       allow(Devise).to receive(:friendly_token).and_return('authentication_unique_token')
-      @user.generate_authentication_token!
-      expect(@user.auth_token).to eql 'authentication_unique_token'
+      subject.generate_authentication_token!
+      expect(subject.auth_token).to eql 'authentication_unique_token'
     end
 
     it 'generates another token when one already has been taken' do
-      existing_user = create(:user, auth_token: 'authentication_unique_token')
-      @user.generate_authentication_token!
-      expect(@user.auth_token).not_to eql existing_user.auth_token
+      existed_user = create(:user, auth_token: 'authentication_unique_token')
+      subject.generate_authentication_token!
+      expect(subject.auth_token).not_to eql existed_user.auth_token
     end
   end
 end

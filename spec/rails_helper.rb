@@ -32,6 +32,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
+  
   #Including to test requests
   config.include Request::JsonHelpers, type: :controller
   config.include Request::HeadersHelpers, type: :controller
