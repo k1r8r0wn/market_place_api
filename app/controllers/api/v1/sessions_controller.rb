@@ -8,9 +8,9 @@ class Api::V1::SessionsController < ApplicationController
       sign_in user
       user.generate_authentication_token!
       user.save
-      render json: user, status: 200, location: [:api, user]
+      render json: user, status: :ok, location: [:api, :v1, user]
     else
-      render json: { errors: 'Invalid email or password' }, status: 422
+      render json: { errors: 'Invalid email or password' }, status: :unprocessable_entity
     end
   end
 
@@ -18,6 +18,6 @@ class Api::V1::SessionsController < ApplicationController
     user = User.find_by(auth_token: params[:id])
     user.generate_authentication_token!
     user.save
-    head 204
+    head :no_content
   end
 end
