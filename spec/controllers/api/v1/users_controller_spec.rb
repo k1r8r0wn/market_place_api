@@ -50,6 +50,10 @@ describe Api::V1::UsersController, type: :controller do
   end
 
   describe 'PUT/PATCH #update' do
+    before(:each) do
+      set_api_authorization_header user.auth_token 
+    end
+
     context 'when is successfully updated' do
       before(:each) do
         patch :update, params: { id: user.id,
@@ -63,7 +67,7 @@ describe Api::V1::UsersController, type: :controller do
       it { should respond_with 200 }
     end
 
-    context 'when is not created' do
+    context 'when is not updated' do
       before(:each) do
         patch :update, params: { id: user.id,
                                  user: { email: 'bademail.com' } }
@@ -73,7 +77,7 @@ describe Api::V1::UsersController, type: :controller do
         expect(json_response).to have_key(:errors)
       end
 
-      it 'renders the json errors on whye the user could not be created' do
+      it 'renders the json errors on why the user could not be updated' do
         expect(json_response[:errors][:email]).to include 'is invalid'
       end
 
@@ -83,7 +87,8 @@ describe Api::V1::UsersController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
-      delete :destroy, params: { id: user.id }
+      set_api_authorization_header user.auth_token
+      delete :destroy, params: { id: user.auth_token }
     end
 
     it { should respond_with 204 }
