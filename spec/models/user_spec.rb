@@ -19,11 +19,11 @@ describe User, type: :model do
     it { should allow_value('example@domain.com').for(:email) }
     it { should validate_uniqueness_of(:auth_token)}
   end
-  
+
   describe 'relation' do
     it { should have_many(:products) }
   end
-  
+
   describe 'when email is not present' do
     before { subject.email = '' }
     it { should_not be_valid }
@@ -43,7 +43,7 @@ describe User, type: :model do
       expect(subject.auth_token).not_to eql existed_user.auth_token
     end
   end
-  
+
   describe '#product assosiations' do
     let(:user) { create(:user) }
 
