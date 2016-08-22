@@ -70,7 +70,7 @@ describe Api::V1::UsersController, type: :controller do
     context 'when is not updated' do
       before(:each) do
         patch :update, params: { id: user.id,
-                                 user: { email: 'bademail.com' } }
+                                 user: { email: 'bad_email.com' } }
       end
 
       it 'renders an errors json' do
