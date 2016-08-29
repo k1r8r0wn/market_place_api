@@ -11,7 +11,7 @@ describe Api::V1::ProductsController, type: :controller do
     end
 
     it 'returns 3 records from the database' do
-      expect(json_response.size).to eq(3)
+      expect(json_response[:products].size).to eq(3)
     end
 
     it { should respond_with 200 }
@@ -23,7 +23,7 @@ describe Api::V1::ProductsController, type: :controller do
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:title]).to eql product.title
+      expect(json_response[:product][:title]).to eql product.title
     end
 
     it { should respond_with 200 }
@@ -38,7 +38,7 @@ describe Api::V1::ProductsController, type: :controller do
       end
 
       it 'renders the json representation for the product record just created' do
-        expect(json_response[:title]).to eql @product_attributes[:title]
+        expect(json_response[:product][:title]).to eql @product_attributes[:title]
       end
 
       it { should respond_with 201 }
@@ -75,7 +75,7 @@ describe Api::V1::ProductsController, type: :controller do
       end
 
       it 'renders the json representation for the updated [profuct]' do
-        expect(json_response[:title]).to eql 'An expensive TV'
+        expect(json_response[:product][:title]).to eql 'An expensive TV'
       end
 
       it { should respond_with 200 }
