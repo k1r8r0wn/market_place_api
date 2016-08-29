@@ -15,7 +15,7 @@ describe 'Api V1 Users', type: :request do
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:email]).to eql user.email
+      expect(json_response[:user][:email]).to eql user.email
     end
   end
 
@@ -36,7 +36,7 @@ describe 'Api V1 Users', type: :request do
 
       it 'renders the json representation for the user record just created' do
         create_user_request
-        expect(json_response[:email]).to eql @user_attributes[:email]
+        expect(json_response[:user][:email]).to eql @user_attributes[:email]
       end
       
       it 'creates user and saves it to db' do
@@ -85,7 +85,7 @@ describe 'Api V1 Users', type: :request do
       end
 
       it 'renders the json representation for the updated user' do
-        expect(json_response[:email]).to eql 'newmail@example.com'
+        expect(json_response[:user][:email]).to eql 'newmail@example.com'
       end
     end
 
