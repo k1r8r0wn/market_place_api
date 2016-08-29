@@ -17,7 +17,7 @@ describe 'Api V1 Sessions', type: :request do
 
       it 'returns the user record corresponding to the given credentials' do
         user.reload
-        expect(json_response[:auth_token]).to eql user.auth_token
+        expect(json_response[:user][:auth_token]).to eql user.auth_token
       end
     end
 
