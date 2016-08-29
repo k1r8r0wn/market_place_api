@@ -15,6 +15,12 @@ describe Api::V1::ProductsController, type: :controller do
     end
 
     it { should respond_with 200 }
+    
+    it "returns the user object into each product" do
+      json_response[:products].each do |json_response|
+        expect(json_response[:user]).to be_present
+      end
+    end
   end
   
   describe 'GET #show' do
@@ -27,6 +33,10 @@ describe Api::V1::ProductsController, type: :controller do
     end
 
     it { should respond_with 200 }
+    
+    it 'has the user as a embeded object' do
+      expect(json_response[:product][:user][:email]).to eql product.user.email
+    end
   end
   
   describe 'POST #create' do
