@@ -4,7 +4,7 @@ describe 'Api V1 Users', type: :request do
   let!(:user) { create(:user) }
   let(:uri)   { 'http://api.localhost.dev/v1/users/' }
   let(:uri_2) { "http://api.localhost.dev/v1/users/#{user.id}" }
-  
+
   describe 'GET #show' do
     before(:each) do
       get uri_2
@@ -15,7 +15,8 @@ describe 'Api V1 Users', type: :request do
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:user][:email]).to eql user.email
+      user_response = json_response[:user][:email]
+      expect(user_response).to eql user.email
     end
   end
 
@@ -28,7 +29,7 @@ describe 'Api V1 Users', type: :request do
       before(:each) do
         @user_attributes = attributes_for(:user)
       end
-      
+
       it "returns a success 201('Created') response" do
         create_user_request
         expect(response.status).to eq(201)
@@ -36,9 +37,10 @@ describe 'Api V1 Users', type: :request do
 
       it 'renders the json representation for the user record just created' do
         create_user_request
-        expect(json_response[:user][:email]).to eql @user_attributes[:email]
+        user_response = json_response[:user][:email]
+        expect(user_response).to eql @user_attributes[:email]
       end
-      
+
       it 'creates user and saves it to db' do
         expect{ create_user_request }.to change{ User.count }.by(1)
       end
@@ -58,12 +60,14 @@ describe 'Api V1 Users', type: :request do
 
       it 'renders an errors json' do
         create_user_request(@invalid_user_attributes)
-        expect(json_response).to have_key(:errors)
+        user_response = json_response
+        expect(user_response).to have_key(:errors)
       end
 
       it 'renders the json errors on why the user could not be created' do
         create_user_request(@invalid_user_attributes)
-        expect(json_response[:errors][:email]).to include "can't be blank"
+        user_response = json_response[:errors][:email]
+        expect(user_response).to include "can't be blank"
       end
 
       it "doesn't create & save user when the 'email' field is empty" do
@@ -77,7 +81,7 @@ describe 'Api V1 Users', type: :request do
     context 'when is successfully updated' do
       before(:each) do
         patch uri_2, params: { user: { email: 'newmail@example.com' } }, 
-                               headers: { 'Authorization' => user.auth_token }
+                               headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a success 200('OK') response" do
@@ -85,14 +89,15 @@ describe 'Api V1 Users', type: :request do
       end
 
       it 'renders the json representation for the updated user' do
-        expect(json_response[:user][:email]).to eql 'newmail@example.com'
+        user_response = json_response[:user][:email]
+        expect(user_response).to eql 'newmail@example.com'
       end
     end
 
     context 'when is not updated' do
       before(:each) do
         patch uri_2, params: { user: { email: 'bademail.com' } },
-                               headers: { 'Authorization' => user.auth_token }
+                               headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a client error 422('Unprocessable Entity') response" do
@@ -100,23 +105,25 @@ describe 'Api V1 Users', type: :request do
       end
 
       it 'renders an errors json' do
-        expect(json_response).to have_key(:errors)
+        user_response = json_response
+        expect(user_response).to have_key(:errors)
       end
 
       it 'renders the json errors on why the user could not be created' do
-        expect(json_response[:errors][:email]).to include 'is invalid'
+        user_response = json_response[:errors][:email]
+        expect(user_response).to include 'is invalid'
       end
     end
   end
 
   describe 'DELETE #destroy' do
     it "returns a success 204('No Content') response" do
-      delete uri_2, headers: { 'Authorization' => user.auth_token }
+      delete uri_2, headers: { 'Authorization': user.auth_token }
       expect(response.status).to eq(204)
     end
 
     it 'deletes user from db' do
-      expect{ delete uri_2, headers: { 'Authorization' => user.auth_token } }.to change{ User.count }.by(-1)
+      expect{ delete uri_2, headers: { 'Authorization': user.auth_token } }.to change{ User.count }.by(-1)
     end
   end
 end

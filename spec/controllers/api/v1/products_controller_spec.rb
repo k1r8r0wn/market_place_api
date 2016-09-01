@@ -11,34 +11,38 @@ describe Api::V1::ProductsController, type: :controller do
     end
 
     it 'returns 3 records from the database' do
-      expect(json_response[:products].size).to eq(3)
+      products_response = json_response[:products]
+      expect(products_response.size).to eq(3)
     end
 
     it { should respond_with 200 }
-    
-    it "returns the user object into each product" do
-      json_response[:products].each do |json_response|
-        expect(json_response[:user]).to be_present
+
+    it 'returns the user object into each product' do
+      products_response = json_response[:products]
+      products_response.each do |product_response|
+        expect(product_response[:user]).to be_present
       end
     end
   end
-  
+
   describe 'GET #show' do
     before(:each) do
       get :show, params: { id: product.id }
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:product][:title]).to eql product.title
+      product_response = json_response[:product][:title]
+      expect(product_response).to eql product.title
     end
 
     it { should respond_with 200 }
-    
+
     it 'has the user as a embeded object' do
-      expect(json_response[:product][:user][:email]).to eql product.user.email
+      product_response = json_response[:product][:user][:email]
+      expect(product_response).to eql product.user.email
     end
   end
-  
+
   describe 'POST #create' do
     context 'when is successfully created' do
       before(:each) do
@@ -48,7 +52,8 @@ describe Api::V1::ProductsController, type: :controller do
       end
 
       it 'renders the json representation for the product record just created' do
-        expect(json_response[:product][:title]).to eql @product_attributes[:title]
+        product_response = json_response[:product][:title]
+        expect(product_response).to eql @product_attributes[:title]
       end
 
       it { should respond_with 201 }
@@ -62,53 +67,60 @@ describe Api::V1::ProductsController, type: :controller do
       end
 
       it 'renders an errors json' do
-        expect(json_response).to have_key(:errors)
+        product_response = json_response
+        expect(product_response).to have_key(:errors)
       end
 
       it 'renders the json errors on whye the user could not be created' do
-        expect(json_response[:errors][:price]).to include 'is not a number'
+        product_response = json_response[:errors][:price]
+        expect(product_response).to include 'is not a number'
       end
 
       it { should respond_with 422 }
     end
   end
-  
+
   describe 'PUT/PATCH #update' do
     before(:each) do
       set_api_authorization_header user.auth_token
     end
-    
+
     context 'when is successfully updated' do
       before(:each) do
         patch :update, params: { user_id: user.id, id: product.id,
-                                 product: { title: 'An expensive TV' } }
+                                 product: { title: 'An expensive TV' } 
+                               }
       end
 
       it 'renders the json representation for the updated [profuct]' do
-        expect(json_response[:product][:title]).to eql 'An expensive TV'
+        product_response = json_response[:product][:title]
+        expect(product_response).to eql 'An expensive TV'
       end
 
       it { should respond_with 200 }
     end
-    
+
     context 'when is not updated' do
       before(:each) do
         patch :update, params: { user_id: user.id, id: product.id,
-                                 product: { price: 'two hundred' } }
+                                 product: { price: 'two hundred' } 
+                               }
       end
 
       it 'renders an errors json' do
-        expect(json_response).to have_key(:errors)
+        product_response = json_response
+        expect(product_response).to have_key(:errors)
       end
 
       it 'renders the json errors on whye the user could not be created' do
-        expect(json_response[:errors][:price]).to include 'is not a number'
+        product_response = json_response[:errors][:price]
+        expect(product_response).to include 'is not a number'
       end
 
       it { should respond_with 422 }
     end
   end
-  
+
   describe 'DELETE #destroy' do
     before do
       set_api_authorization_header user.auth_token

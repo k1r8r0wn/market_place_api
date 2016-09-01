@@ -9,7 +9,8 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     it 'returns the information about a reporter on a hash' do
-      expect(json_response[:user][:email]).to eql user.email
+      user_response = json_response[:user][:email]
+      expect(user_response).to eql user.email
     end
 
     it { should respond_with 200 }
@@ -23,7 +24,8 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders the json representation for the user record just created' do
-        expect(json_response[:user][:email]).to eql @user_attributes[:email]
+        user_response = json_response[:user][:email]
+        expect(user_response).to eql @user_attributes[:email]
       end
 
       it { should respond_with 201 }
@@ -38,11 +40,13 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders an errors json' do
-        expect(json_response).to have_key(:errors)
+        user_response = json_response
+        expect(user_response).to have_key(:errors)
       end
 
       it 'renders the json errors on why the user could not be created' do
-        expect(json_response[:errors][:email]).to include "can't be blank"
+        user_response = json_response[:errors][:email]
+        expect(user_response).to include "can't be blank"
       end
 
       it { should respond_with 422 }
@@ -61,7 +65,8 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders the json representation for the updated user' do
-        expect(json_response[:user][:email]).to eql 'newmail@example.com'
+        user_response = json_response[:user][:email]
+        expect(user_response).to eql 'newmail@example.com'
       end
 
       it { should respond_with 200 }
@@ -74,11 +79,13 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders an errors json' do
-        expect(json_response).to have_key(:errors)
+        user_response = json_response
+        expect(user_response).to have_key(:errors)
       end
 
       it 'renders the json errors on why the user could not be updated' do
-        expect(json_response[:errors][:email]).to include 'is invalid'
+        user_response = json_response[:errors][:email]
+        expect(user_response).to include 'is invalid'
       end
 
       it { should respond_with 422 }
