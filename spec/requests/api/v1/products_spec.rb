@@ -10,23 +10,41 @@ describe 'Api V1 Products', type: :request do
 
   describe 'GET #index' do
     before(:each) do
-      2.times { create(:product) }
-      get uri
+      2.times { create(:product, user: user) }
+    end
+    
+    context 'when is not receiving any product_ids parameter' do
+      before(:each) do
+        get uri
+      end
+
+      it "returns a success 200('OK') response" do
+        expect(response.status).to eq(200)
+      end
+
+      it 'returns 3 records from the database' do
+        product_response = json_response
+        expect(product_response[:products].size).to eq(3)
+      end
+
+      it 'returns the user object into each product' do
+        products_response = json_response[:products]
+        products_response.each do |product_response|
+          expect(product_response[:user]).to be_present
+        end
+      end
     end
 
-    it "returns a success 200('OK') response" do
-      expect(response.status).to eq(200)
-    end
+    context 'when product_ids parameter is sent' do
+      before do
+        get uri, params: { ids: user.product_ids }
+      end
 
-    it 'returns 3 records from the database' do
-      product_response = json_response
-      expect(product_response[:products].size).to eq(3)
-    end
-
-    it 'returns the user object into each product' do
-      products_response = json_response[:products]
-      products_response.each do |product_response|
-        expect(product_response[:user]).to be_present
+      it 'returns just the products that belong to the user' do
+        products_response = json_response[:products]
+        products_response.each do |product_response|
+          expect(product_response[:user][:email]).to eql user.email
+        end
       end
     end
   end

@@ -18,6 +18,11 @@ describe 'Api V1 Users', type: :request do
       user_response = json_response[:user][:email]
       expect(user_response).to eql user.email
     end
+
+    it 'has the product ids as an embeded object' do
+      user_response = json_response[:user][:product_ids]
+      expect(user_response).to eql []
+    end
   end
 
   describe 'POST #create' do
