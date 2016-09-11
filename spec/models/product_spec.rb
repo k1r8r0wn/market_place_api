@@ -54,13 +54,42 @@ describe Product, type: :model do
 
   describe 'Filter .by_recently_updated' do
     before(:each) do
-      # touch some products to update them
+      # Touch some products to update them
       product2.touch
       product3.touch
     end
 
     it 'returns the most updated records' do
       expect(Product.by_recently_updated).to match_array([product3, product2, product4, product1])
+    end
+  end
+  
+  describe '.search' do
+    context "when title 'iPhone' and '100' a min price are set" do
+      it 'returns an empty array' do
+        search_hash = { keyword: 'iPhone', min_price: 100 }
+        expect(Product.search(search_hash)).to be_empty
+      end
+    end
+
+    context "when title 'MacBook', '150' as max price, and '50' as min price are set" do
+      it 'returns the product1' do
+        search_hash = { keyword: 'MacBook', min_price: 50, max_price: 150 }
+        expect(Product.search(search_hash)).to match_array([product1, product4]) 
+      end
+    end
+
+    context 'when an empty hash is sent' do
+      it 'returns all the products' do
+        expect(Product.search({})).to match_array([product1, product2, product3, product4])
+      end
+    end
+
+    context 'when product_ids is present' do
+      it 'returns the product from the ids' do
+        search_hash = { product_ids: [product1.id, product2.id]}
+        expect(Product.search(search_hash)).to match_array([product1, product2])
+      end
     end
   end
 end

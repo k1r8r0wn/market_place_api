@@ -31,7 +31,7 @@ describe Api::V1::ProductsController, type: :controller do
 
     context 'when product_ids parameter is sent' do
       before do
-        get :index, params: { ids: user.product_ids }
+        get :index, params: { product_ids: user.product_ids }
       end
 
       it 'returns just the products that belong to the user' do
