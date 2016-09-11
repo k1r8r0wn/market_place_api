@@ -26,6 +26,8 @@ describe Product, type: :model do
 
   describe 'relation' do
     it { should belong_to :user }
+    it { should have_many(:placements) }
+    it { should have_many(:orders).through(:placements) }
   end
 
   describe 'Filter .by_title' do
