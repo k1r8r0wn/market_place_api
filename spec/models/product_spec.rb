@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Product, type: :model do
-  let!(:product1) { create(:product, title: 'MacBook', price: 100) }
-  let!(:product2) { create(:product, title: 'iPhone', price: 50) }
-  let!(:product3) { create(:product, title: 'iPad', price: 150) }
-  let!(:product4) { create(:product, title: 'MacBook Pro', price: 99) }
+  let!(:product_1) { create(:product, title: 'MacBook', price: 100) }
+  let!(:product_2) { create(:product, title: 'iPhone', price: 50) }
+  let!(:product_3) { create(:product, title: 'iPad', price: 150) }
+  let!(:product_4) { create(:product, title: 'MacBook Pro', price: 99) }
   
   subject { create(:product) }
   
@@ -37,32 +37,32 @@ describe Product, type: :model do
       end
 
       it 'returns the products matching' do
-        expect(Product.by_title('MacBook').sort).to match_array([product1, product4])
+        expect(Product.by_title('MacBook').sort).to match_array([product_1, product_4])
       end
     end
   end
 
   describe 'Filter .by_above_or_equal_to_price' do
     it 'returns the products which are above or equal to the price' do
-      expect(Product.by_above_or_equal_to_price(100).sort).to match_array([product1, product3])
+      expect(Product.by_above_or_equal_to_price(100).sort).to match_array([product_1, product_3])
     end
   end
 
   describe 'Filter .by_below_or_equal_to_price' do
     it 'returns the products which are below or equal to the price' do
-      expect(Product.by_below_or_equal_to_price(99).sort).to match_array([product2, product4])
+      expect(Product.by_below_or_equal_to_price(99).sort).to match_array([product_2, product_4])
     end
   end
 
   describe 'Filter .by_recently_updated' do
     before(:each) do
       # Touch some products to update them
-      product2.touch
-      product3.touch
+      product_2.touch
+      product_3.touch
     end
 
     it 'returns the most updated records' do
-      expect(Product.by_recently_updated).to match_array([product3, product2, product4, product1])
+      expect(Product.by_recently_updated).to match_array([product_3, product_2, product_4, product_1])
     end
   end
   
@@ -77,20 +77,20 @@ describe Product, type: :model do
     context "when title 'MacBook', '150' as max price, and '50' as min price are set" do
       it 'returns the product1' do
         search_hash = { keyword: 'MacBook', min_price: 50, max_price: 150 }
-        expect(Product.search(search_hash)).to match_array([product1, product4]) 
+        expect(Product.search(search_hash)).to match_array([product_1, product_4]) 
       end
     end
 
     context 'when an empty hash is sent' do
       it 'returns all the products' do
-        expect(Product.search({})).to match_array([product1, product2, product3, product4])
+        expect(Product.search({})).to match_array([product_1, product_2, product_3, product_4])
       end
     end
 
     context 'when product_ids is present' do
       it 'returns the product from the ids' do
-        search_hash = { product_ids: [product1.id, product2.id]}
-        expect(Product.search(search_hash)).to match_array([product1, product2])
+        search_hash = { product_ids: [product_1.id, product_2.id]}
+        expect(Product.search(search_hash)).to match_array([product_1, product_2])
       end
     end
   end

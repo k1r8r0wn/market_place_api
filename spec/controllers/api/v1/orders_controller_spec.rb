@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Api::V1::OrdersController, type: :controller do
-  let(:user)  { create(:user) }
+  let(:user)   { create(:user) }
   let!(:order) { create(:order, user: user) }
 
   describe 'GET #index' do
@@ -31,5 +31,23 @@ describe Api::V1::OrdersController, type: :controller do
     end
 
     it { should respond_with 200 }
+  end
+
+  describe 'POST #create' do
+    let(:product_1) { create(:product) }
+    let(:product_2) { create(:product) }
+
+    before(:each) do
+      set_api_authorization_header user.auth_token
+      order_params = { product_ids: [product_1.id, product_2.id] }
+      post :create, params: { user_id: user.id, order: order_params }
+    end
+
+    it 'returns the just user order record' do
+      order_response = json_response[:order][:id]
+      expect(order_response).to be_present
+    end
+
+    it { should respond_with 201 }
   end
 end
