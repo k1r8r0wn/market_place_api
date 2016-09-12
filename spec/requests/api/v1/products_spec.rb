@@ -3,10 +3,10 @@ require 'rails_helper'
 describe 'Api V1 Products', type: :request do
   let(:user)   { create(:user) }
   let!(:product) { create(:product, user: user) }
-  let(:uri)     { 'http://api.localhost.dev/v1/products/' }
-  let(:uri_2)   { "http://api.localhost.dev/v1/products/#{product.id}" }
-  let(:uri_3)   { "http://api.localhost.dev/v1/users/#{user.id}/products/" }
-  let(:uri_4)   { "http://api.localhost.dev/v1/users/#{user.id}/products/#{product.id}" }
+  let(:uri)      { 'http://api.localhost.dev/v1/products/' }
+  let(:uri_2)    { "http://api.localhost.dev/v1/products/#{product.id}" }
+  let(:uri_3)    { "http://api.localhost.dev/v1/users/#{user.id}/products/" }
+  let(:uri_4)    { "http://api.localhost.dev/v1/users/#{user.id}/products/#{product.id}" }
 
   describe 'GET #index' do
     before(:each) do
