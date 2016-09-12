@@ -23,8 +23,8 @@ describe 'Api V1 Products', type: :request do
       end
 
       it 'returns 3 records from the database' do
-        product_response = json_response
-        expect(product_response[:products].size).to eq(3)
+        product_response = json_response[:products]
+        expect(product_response.size).to eq(3)
       end
 
       it 'returns the user object into each product' do
