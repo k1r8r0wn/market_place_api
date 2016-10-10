@@ -1,25 +1,28 @@
 require 'rails_helper'
 
 describe Api::V1::OrdersController, type: :controller do
-  let(:user)   { create(:user) }
-  let!(:order) { create(:order, user: user) }
+  let(:user)  { create(:user) }
 
   describe 'GET #index' do
+    let!(:order) { create(:order, user: user) }
+
     before(:each) do
       set_api_authorization_header user.auth_token
-      2.times { create(:order, user: user) }
       get :index, params: { user_id: user.id }
     end
 
-    it 'returns 4 order records from the user' do
+    it 'returns 1 order records from the user' do
       orders_response = json_response[:orders]
-      expect(orders_response.size).to eq(3)
+      expect(orders_response.size).to eq(1)
     end
 
     it { should respond_with 200 }
   end
 
   describe 'GET #show' do
+    let(:product) { create(:product, user: user) }
+    let(:order)   { create(:order, user: user, product_ids: [product.id]) }
+
     before(:each) do
       set_api_authorization_header user.auth_token
       get :show, params: { user_id: user.id, id: order.id }
@@ -31,6 +34,16 @@ describe Api::V1::OrdersController, type: :controller do
     end
 
     it { should respond_with 200 }
+
+    it "includes the total for the order" do
+      order_response = json_response[:order]
+      expect(order_response[:total]).to eql order.total.to_s
+    end
+
+    it "includes the products on the order" do
+      order_response = json_response[:order]
+      expect(order_response[:products].count).to eq(1)
+    end
   end
 
   describe 'POST #create' do
