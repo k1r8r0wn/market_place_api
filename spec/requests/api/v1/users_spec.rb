@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Api V1 Users', type: :request do
   let!(:user) { create(:user) }
-  let(:uri)   { 'http://api.localhost.dev/v1/users/' }
+  let(:uri_1) { 'http://api.localhost.dev/v1/users/' }
   let(:uri_2) { "http://api.localhost.dev/v1/users/#{user.id}" }
 
   describe 'GET #show' do
@@ -27,7 +27,7 @@ describe 'Api V1 Users', type: :request do
 
   describe 'POST #create' do
     def create_user_request(attributes = @user_attributes)
-      post uri, params: { user: attributes }
+      post uri_1, params: { user: attributes }
     end
 
     context 'when is successfully created' do
@@ -76,7 +76,7 @@ describe 'Api V1 Users', type: :request do
       end
 
       it "doesn't create & save user when the 'email' field is empty" do
-        post uri, params: { user: @invalid_user_attributes }
+        post uri_1, params: { user: @invalid_user_attributes }
         expect{ create_user_request(@invalid_user_attributes) }.to_not change{ User.count }
       end
     end

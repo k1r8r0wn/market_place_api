@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'Api V1 Products', type: :request do
-  let(:user)   { create(:user) }
+  let(:user)     { create(:user) }
   let!(:product) { create(:product, user: user) }
-  let(:uri)     { 'http://api.localhost.dev/v1/products/' }
-  let(:uri_2)   { "http://api.localhost.dev/v1/products/#{product.id}" }
-  let(:uri_3)   { "http://api.localhost.dev/v1/users/#{user.id}/products/" }
-  let(:uri_4)   { "http://api.localhost.dev/v1/users/#{user.id}/products/#{product.id}" }
+  let(:uri_1)      { 'http://api.localhost.dev/v1/products/' }
+  let(:uri_2)    { "http://api.localhost.dev/v1/products/#{product.id}" }
+  let(:uri_3)    { "http://api.localhost.dev/v1/users/#{user.id}/products/" }
+  let(:uri_4)    { "http://api.localhost.dev/v1/users/#{user.id}/products/#{product.id}" }
 
   describe 'GET #index' do
     before(:each) do
@@ -15,7 +15,7 @@ describe 'Api V1 Products', type: :request do
     
     context 'when is not receiving any product_ids parameter' do
       before(:each) do
-        get uri
+        get uri_1
       end
 
       it "returns a success 200('OK') response" do
@@ -23,8 +23,8 @@ describe 'Api V1 Products', type: :request do
       end
 
       it 'returns 3 records from the database' do
-        product_response = json_response
-        expect(product_response[:products].size).to eq(3)
+        product_response = json_response[:products]
+        expect(product_response.size).to eq(3)
       end
 
       it 'returns the user object into each product' do
@@ -37,7 +37,7 @@ describe 'Api V1 Products', type: :request do
 
     context 'when product_ids parameter is sent' do
       before do
-        get uri, params: { product_ids: user.product_ids }
+        get uri_1, params: { product_ids: user.product_ids }
       end
 
       it 'returns just the products that belong to the user' do
