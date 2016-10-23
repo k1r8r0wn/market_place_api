@@ -13,6 +13,8 @@ describe Product, type: :model do
     it { should respond_to(:price) }
     it { should respond_to(:published) }
     it { should respond_to(:user_id) }
+    it { should respond_to(:user) }
+    it { should respond_to(:quantity) }
 
     it { should be_valid }
   end
