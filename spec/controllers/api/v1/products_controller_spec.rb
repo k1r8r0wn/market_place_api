@@ -18,6 +18,8 @@ describe Api::V1::ProductsController, type: :controller do
         products_response = json_response[:products]
         expect(products_response.size).to eq(3)
       end
+
+      it_behaves_like 'paginated list'
       
       it { should respond_with 200 }
 

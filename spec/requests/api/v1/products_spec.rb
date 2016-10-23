@@ -22,6 +22,8 @@ describe 'Api V1 Products', type: :request do
         expect(response.status).to eq(200)
       end
 
+      it_behaves_like 'paginated list'
+
       it 'returns 3 records from the database' do
         product_response = json_response[:products]
         expect(product_response.size).to eq(3)

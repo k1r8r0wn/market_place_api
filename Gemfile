@@ -7,6 +7,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
 gem 'devise', '~> 4.2'
+gem 'kaminari'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'byebug', platform: :mri

@@ -21,6 +21,8 @@ describe 'Api V1 Orders', type: :request do
     it "returns a success 200('OK') response" do
       expect(response.status).to eq(200)
     end
+
+    it_behaves_like 'paginated list'
   end
 
   describe 'GET #show' do
