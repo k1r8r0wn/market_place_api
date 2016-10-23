@@ -59,13 +59,11 @@ describe Api::V1::OrdersController, type: :controller do
 
     it 'returns the user order record' do
       order_response = json_response[:order][:id]
-      p order_response
       expect(order_response).to be_present
     end
 
     it "embeds the two product objects related to the order" do
       order_response = json_response[:order]
-      p order_response
       expect(order_response[:products].size).to eql(2)
     end
 
