@@ -30,7 +30,7 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # Including to test requests
@@ -41,7 +41,7 @@ RSpec.configure do |config|
   config.include(EmailSpec::Matchers)
 
   config.before(:each, type: :controller) do
-    include_default_accept_headers 
+    include_default_accept_headers
   end
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
