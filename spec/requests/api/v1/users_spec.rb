@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Api V1 Users', type: :request do
@@ -47,7 +49,7 @@ describe 'Api V1 Users', type: :request do
       end
 
       it 'creates user and saves it to db' do
-        expect{ create_user_request }.to change{ User.count }.by(1)
+        expect { create_user_request }.to change { User.count }.by(1)
       end
     end
 
@@ -77,7 +79,7 @@ describe 'Api V1 Users', type: :request do
 
       it "doesn't create & save user when the 'email' field is empty" do
         post uri_1, params: { user: @invalid_user_attributes }
-        expect{ create_user_request(@invalid_user_attributes) }.to_not change{ User.count }
+        expect { create_user_request(@invalid_user_attributes) }.to_not(change { User.count })
       end
     end
   end
@@ -85,8 +87,8 @@ describe 'Api V1 Users', type: :request do
   describe 'PUT/PATCH #update' do
     context 'when is successfully updated' do
       before(:each) do
-        patch uri_2, params: { user: { email: 'newmail@example.com' } }, 
-                               headers: { 'Authorization': user.auth_token }
+        patch uri_2, params: { user: { email: 'newmail@example.com' } },
+                     headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a success 200('OK') response" do
@@ -102,7 +104,7 @@ describe 'Api V1 Users', type: :request do
     context 'when is not updated' do
       before(:each) do
         patch uri_2, params: { user: { email: 'bademail.com' } },
-                               headers: { 'Authorization': user.auth_token }
+                     headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a client error 422('Unprocessable Entity') response" do
@@ -128,7 +130,7 @@ describe 'Api V1 Users', type: :request do
     end
 
     it 'deletes user from db' do
-      expect{ delete uri_2, headers: { 'Authorization': user.auth_token } }.to change{ User.count }.by(-1)
+      expect { delete uri_2, headers: { 'Authorization': user.auth_token } }.to change { User.count }.by(-1)
     end
   end
 end

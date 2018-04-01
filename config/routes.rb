@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'api_constraints'
 
 Rails.application.routes.draw do
@@ -7,12 +9,12 @@ Rails.application.routes.draw do
                   constraints: { subdomain: 'api' }, path: '/' do
     namespace :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       # resources
-      resources :users, only: [:show, :create, :update, :destroy] do
-        resources :products, only: [:create, :update, :destroy]
-        resources :orders, only: [:index, :show, :create]
+      resources :users, only: %i[show create update destroy] do
+        resources :products, only: %i[create update destroy]
+        resources :orders, only: %i[index show create]
       end
-      resources :sessions, only: [:create, :destroy]
-      resources :products, only: [:index, :show]
+      resources :sessions, only: %i[create destroy]
+      resources :products, only: %i[index show]
     end
   end
 end

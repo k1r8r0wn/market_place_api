@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Request
   module JsonHelpers
     def json_response
@@ -7,7 +9,7 @@ module Request
 
   module HeadersHelpers
     def api_header(version = 1)
-      request.headers['Accept'] = "application/vnd.marketplace.v#{version}" 
+      request.headers['Accept'] = "application/vnd.marketplace.v#{version}"
     end
 
     def api_response_format(format = Mime[:json])
@@ -15,12 +17,12 @@ module Request
       request.headers['Content-Type'] = format.to_s
     end
 
-    def set_api_authorization_header(token)
+    def api_authorization_header(token)
       request.headers['Authorization'] = token
     end
 
     def include_default_accept_headers
-      api_header 
+      api_header
       api_response_format
     end
   end

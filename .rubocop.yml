@@ -1,0 +1,49 @@
+# require: rubocop-rspec
+
+AllCops:
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+  TargetRubyVersion: 2.5
+  Exclude:
+    - db/**/*
+    - script/**/*
+    - bin/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - spec/fixtures/**/*
+    - config/initializers/**/*
+    - config/environments/**/*
+    - config/application.rb
+    - ./Gemfile
+    - ./Rakefile
+    - ./config.ru
+
+Rails:
+  Enabled: true
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: true
+  Max: 120
+
+Metrics/MethodLength:
+  Enabled: true
+  Max: 20
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*

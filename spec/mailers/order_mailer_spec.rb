@@ -1,4 +1,6 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 describe OrderMailer, type: :mailer do
   include Rails.application.routes.url_helpers
@@ -20,7 +22,7 @@ describe OrderMailer, type: :mailer do
     end
 
     it "should contain the user's message in the mail body" do
-    	expect(@order_mailer).to have_body_text(/Order: ##{order.id}/)
+      expect(@order_mailer).to have_body_text(/Order: ##{order.id}/)
     end
 
     it 'should have the correct subject' do

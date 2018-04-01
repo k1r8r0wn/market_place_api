@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Product, type: :model do
@@ -5,9 +7,9 @@ describe Product, type: :model do
   let!(:product_2) { create(:product, title: 'iPhone', price: 50) }
   let!(:product_3) { create(:product, title: 'iPad', price: 150) }
   let!(:product_4) { create(:product, title: 'MacBook Pro', price: 99) }
-  
+
   subject { create(:product) }
-  
+
   describe 'respond' do
     it { should respond_to(:title) }
     it { should respond_to(:price) }
@@ -67,7 +69,7 @@ describe Product, type: :model do
       expect(Product.by_recently_updated).to match_array([product_3, product_2, product_4, product_1])
     end
   end
-  
+
   describe '.search' do
     context "when title 'iPhone' and '100' a min price are set" do
       it 'returns an empty array' do
@@ -79,7 +81,7 @@ describe Product, type: :model do
     context "when title 'MacBook', '150' as max price, and '50' as min price are set" do
       it 'returns the product1' do
         search_hash = { keyword: 'MacBook', min_price: 50, max_price: 150 }
-        expect(Product.search(search_hash)).to match_array([product_1, product_4]) 
+        expect(Product.search(search_hash)).to match_array([product_1, product_4])
       end
     end
 
@@ -91,7 +93,7 @@ describe Product, type: :model do
 
     context 'when product_ids is present' do
       it 'returns the product from the ids' do
-        search_hash = { product_ids: [product_1.id, product_2.id]}
+        search_hash = { product_ids: [product_1.id, product_2.id] }
         expect(Product.search(search_hash)).to match_array([product_1, product_2])
       end
     end

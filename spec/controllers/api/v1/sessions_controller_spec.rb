@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V1::SessionsController, type: :controller do
   describe 'POST #create' do
-
-    let(:user) { create(:user) } 
+    let(:user) { create(:user) }
 
     context 'when the credentials are correct' do
       before(:each) do
@@ -34,10 +35,10 @@ describe Api::V1::SessionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:user) { create(:user) } 
-    
+    let(:user) { create(:user) }
+
     before(:each) do
-      sign_in user 
+      sign_in user
       delete :destroy, params: { id: user.auth_token }
     end
 

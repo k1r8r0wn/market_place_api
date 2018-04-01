@@ -1,26 +1,28 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V1::ProductsController, type: :controller do
   let(:user)    { create(:user) }
   let(:product) { create(:product, user: user) }
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before(:each) do
       3.times { create :product, user: user }
     end
-    
+
     context 'when is not receiving any product_ids parameter' do
       before(:each) do
         get :index
       end
-    
+
       it 'returns 3 records from the database' do
         products_response = json_response[:products]
         expect(products_response.size).to eq(3)
       end
 
       it_behaves_like 'paginated list'
-      
+
       it { should respond_with 200 }
 
       it 'returns the user object into each product' do
@@ -67,7 +69,7 @@ describe Api::V1::ProductsController, type: :controller do
     context 'when is successfully created' do
       before(:each) do
         @product_attributes = attributes_for(:product)
-        set_api_authorization_header user.auth_token
+        api_authorization_header user.auth_token
         post :create, params: { user_id: user.id, product: @product_attributes }
       end
 
@@ -82,7 +84,7 @@ describe Api::V1::ProductsController, type: :controller do
     context 'when is not created' do
       before(:each) do
         @invalid_product_attributes = { title: 'Smart TV', price: 'Twelve dollars' }
-        set_api_authorization_header user.auth_token
+        api_authorization_header user.auth_token
         post :create, params: { user_id: user.id, product: @invalid_product_attributes }
       end
 
@@ -102,14 +104,12 @@ describe Api::V1::ProductsController, type: :controller do
 
   describe 'PUT/PATCH #update' do
     before(:each) do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
     end
 
     context 'when is successfully updated' do
       before(:each) do
-        patch :update, params: { user_id: user.id, id: product.id,
-                                 product: { title: 'An expensive TV' } 
-                               }
+        patch :update, params: { user_id: user.id, id: product.id, product: { title: 'An expensive TV' } }
       end
 
       it 'renders the json representation for the updated [profuct]' do
@@ -122,9 +122,7 @@ describe Api::V1::ProductsController, type: :controller do
 
     context 'when is not updated' do
       before(:each) do
-        patch :update, params: { user_id: user.id, id: product.id,
-                                 product: { price: 'two hundred' } 
-                               }
+        patch :update, params: { user_id: user.id, id: product.id, product: { price: 'two hundred' } }
       end
 
       it 'renders an errors json' do
@@ -143,7 +141,7 @@ describe Api::V1::ProductsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
       delete :destroy, params: { user_id: user.id, id: product.id }
     end
 
