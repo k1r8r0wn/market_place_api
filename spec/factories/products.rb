@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :product do
     title { FFaker::Product.product_name }
-    price { rand() * 100 }
+    price { rand * 100 }
     published false
     quantity 5
     user

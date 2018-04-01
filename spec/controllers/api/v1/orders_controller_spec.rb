@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V1::OrdersController, type: :controller do
-  let(:user)  { create(:user) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     let!(:order) { create(:order, user: user) }
 
     before(:each) do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
       get :index, params: { user_id: user.id }
     end
 
@@ -26,7 +28,7 @@ describe Api::V1::OrdersController, type: :controller do
     let(:order)   { create(:order, user: user, product_ids: [product.id]) }
 
     before(:each) do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
       get :show, params: { user_id: user.id, id: order.id }
     end
 
@@ -37,12 +39,12 @@ describe Api::V1::OrdersController, type: :controller do
 
     it { should respond_with 200 }
 
-    it "includes the total for the order" do
+    it 'includes the total for the order' do
       order_response = json_response[:order]
       expect(order_response[:total]).to eql order.total.to_s
     end
 
-    it "includes the products on the order" do
+    it 'includes the products on the order' do
       order_response = json_response[:order]
       expect(order_response[:products].count).to eq(1)
     end
@@ -54,7 +56,7 @@ describe Api::V1::OrdersController, type: :controller do
     let(:order)     { create(:order, user: user) }
 
     before(:each) do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
       order_params = { product_ids_and_quantities: [[product_1.id, 2], [product_2.id, 3]] }
       post :create, params: { user_id: user.id, order: order_params }
     end
@@ -64,7 +66,7 @@ describe Api::V1::OrdersController, type: :controller do
       expect(order_response).to be_present
     end
 
-    it "embeds the two product objects related to the order" do
+    it 'embeds the two product objects related to the order' do
       order_response = json_response[:order]
       expect(order_response[:products].size).to eql(2)
     end

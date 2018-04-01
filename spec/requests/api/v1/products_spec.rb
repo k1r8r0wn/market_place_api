@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Api V1 Products', type: :request do
   let(:user)     { create(:user) }
   let!(:product) { create(:product, user: user) }
-  let(:uri_1)      { 'http://api.localhost.dev/v1/products/' }
+  let(:uri_1)    { 'http://api.localhost.dev/v1/products/' }
   let(:uri_2)    { "http://api.localhost.dev/v1/products/#{product.id}" }
   let(:uri_3)    { "http://api.localhost.dev/v1/users/#{user.id}/products/" }
   let(:uri_4)    { "http://api.localhost.dev/v1/users/#{user.id}/products/#{product.id}" }
@@ -12,7 +14,7 @@ describe 'Api V1 Products', type: :request do
     before(:each) do
       2.times { create(:product, user: user) }
     end
-    
+
     context 'when is not receiving any product_ids parameter' do
       before(:each) do
         get uri_1
@@ -91,13 +93,13 @@ describe 'Api V1 Products', type: :request do
         expect(product_response).to eql product_attributes[:title]
       end
 
-       it 'creates product and saves it to db' do
-        expect{ create_products_request(attributes_for(:product)) }.to change{ Product.count }.by(1)
+      it 'creates product and saves it to db' do
+        expect { create_products_request(attributes_for(:product)) }.to change { Product.count }.by(1)
       end
     end
 
     context 'when is not created' do
-      let(:invalid_product_attributes) {{ 'title': 'Smart TV', 'price': 'Twelve dollars' }}
+      let(:invalid_product_attributes) { { 'title': 'Smart TV', 'price': 'Twelve dollars' } }
 
       it "returns a client error 422('Unprocessable Entity') response" do
         create_products_request(invalid_product_attributes)
@@ -117,9 +119,9 @@ describe 'Api V1 Products', type: :request do
       end
 
       it "doesn't create & save product when the 'title' field is empty" do
-        post uri_3, params: { product: invalid_product_attributes }, 
+        post uri_3, params: { product: invalid_product_attributes },
                     headers: { 'Authorization': user.auth_token }
-        expect{ create_products_request(invalid_product_attributes) }.to_not change{ Product.count }
+        expect { create_products_request(invalid_product_attributes) }.to_not(change { Product.count })
       end
     end
   end
@@ -129,7 +131,7 @@ describe 'Api V1 Products', type: :request do
       before(:each) do
         patch uri_4, params: { user_id: user.id, id: product.id,
                                product: { title: 'An expensive TV' } },
-                               headers: { 'Authorization': user.auth_token }
+                     headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a success 200('OK') response" do
@@ -146,7 +148,7 @@ describe 'Api V1 Products', type: :request do
       before(:each) do
         patch uri_4, params: { user_id: user.id, id: product.id,
                                product: { price: 'two hundred' } },
-                               headers: { 'Authorization': user.auth_token }
+                     headers: { 'Authorization': user.auth_token }
       end
 
       it "returns a client error 422('Unprocessable Entity') response" do
@@ -173,8 +175,10 @@ describe 'Api V1 Products', type: :request do
     end
 
     it 'deletes product from db' do
-      expect{ delete uri_4, params: { user_id: user.id, id: product.id }, 
-                            headers: { 'Authorization': user.auth_token } }.to change{ Product.count }.by(-1)
+      expect do
+        delete uri_4, params: { user_id: user.id, id: product.id },
+                      headers: { 'Authorization': user.auth_token }
+      end .to change { Product.count }.by(-1)
     end
   end
 end

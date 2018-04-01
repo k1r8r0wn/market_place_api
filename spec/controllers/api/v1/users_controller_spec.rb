@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V1::UsersController, type: :controller do
-  let(:user) { create(:user) } 
+  let(:user) { create(:user) }
 
   describe 'GET #show' do
     before(:each) do
@@ -60,7 +62,7 @@ describe Api::V1::UsersController, type: :controller do
 
   describe 'PUT/PATCH #update' do
     before(:each) do
-      set_api_authorization_header user.auth_token 
+      api_authorization_header user.auth_token
     end
 
     context 'when is successfully updated' do
@@ -99,7 +101,7 @@ describe Api::V1::UsersController, type: :controller do
 
   describe 'DELETE #destroy' do
     before do
-      set_api_authorization_header user.auth_token
+      api_authorization_header user.auth_token
       delete :destroy, params: { id: user.auth_token }
     end
 

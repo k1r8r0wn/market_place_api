@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Authenticable
   # Overwrite Devise methods
   def current_user
@@ -5,11 +7,10 @@ module Authenticable
   end
 
   def authenticate_with_token!
-    render json: { errors: 'Not authenticated' },
-                   status: :unauthorized unless user_signed_in?()
+    render json: { errors: 'Not authenticated' }, status: :unauthorized unless user_signed_in?
   end
 
-   def user_signed_in?
+  def user_signed_in?
     current_user.present?
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Api V1 Orders', type: :request do
@@ -43,12 +45,12 @@ describe 'Api V1 Orders', type: :request do
       expect(response.status).to eq(200)
     end
 
-    it "includes the total for the order" do
+    it 'includes the total for the order' do
       order_response = json_response[:order]
       expect(order_response[:total]).to eql order.total.to_s
     end
 
-    it "includes the products on the order" do
+    it 'includes the products on the order' do
       order_response = json_response[:order]
       expect(order_response[:products].count).to eq(1)
     end
