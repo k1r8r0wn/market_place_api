@@ -1,34 +1,37 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1', '>= 5.1.5'
+gem 'coffee-rails'
+gem 'delayed_job_active_record'
+gem 'devise'
+gem 'jquery-rails'
+gem 'kaminari'
 gem 'puma'
+gem 'rails', '~> 5.1', '>= 5.1.6'
 gem 'sass-rails'
 gem 'uglifier'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem 'devise'
-gem 'kaminari'
-gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'rspec-rails'
-  gem "factory_bot_rails"
-  gem 'ffaker'
-  gem 'shoulda-matchers'
   gem 'email_spec'
+  gem 'factory_bot_rails'
+  gem 'ffaker'
+  gem 'rspec-rails'
+  gem 'rubocop'
+  gem 'shoulda-matchers'
 end
 
 group :development do
-  gem 'web-console'
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'sqlite3'
+  gem 'web-console'
 end
 
 # Api gems
 gem 'active_model_serializers'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
