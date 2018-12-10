@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Api V1 Sessions', type: :request do
   describe 'POST #create' do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, password: 'password') }
     let(:uri)  { 'http://api.localhost.dev/v1/sessions/' }
 
     context 'when the credentials are correct' do

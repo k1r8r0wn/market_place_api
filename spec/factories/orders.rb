@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :order do
-    total 0
+    total { rand }
     user
   end
 end
