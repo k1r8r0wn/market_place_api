@@ -8,7 +8,7 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'puma'
-gem 'rails', '~> 5.2.2.1'
+gem 'rails', '~> 5.2.4.2'
 gem 'sass-rails'
 gem 'uglifier'
 
@@ -28,6 +28,8 @@ group :development do
   gem 'spring-watcher-listen'
   gem 'sqlite3'
   gem 'web-console'
+  gem 'bundler-audit'
+  gem 'brakeman'
 end
 
 # Api gems
