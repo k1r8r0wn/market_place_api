@@ -8,7 +8,7 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'puma'
-gem 'rails', '~> 5.2.4.2'
+gem 'rails', '~> 5.2.4.3'
 gem 'sass-rails'
 gem 'uglifier'
 
