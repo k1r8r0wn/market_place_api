@@ -8,9 +8,10 @@ gem 'devise'
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'puma'
-gem 'rails', '~> 5.2.4.6'
+gem 'rails', '~> 5.2.6.2'
 gem 'sass-rails'
 gem 'uglifier'
+gem 'nokogiri', '>= 1.13.2'
 
 group :development, :test do
   gem 'byebug', platform: :mri
