@@ -11,7 +11,6 @@ gem 'puma'
 gem 'rails', '~> 5.2.8.1'
 gem 'sass-rails'
 gem 'uglifier'
-gem 'nokogiri', '>= 1.13.2'
 
 group :development, :test do
   gem 'byebug', platform: :mri

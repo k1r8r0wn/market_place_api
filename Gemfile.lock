@@ -140,14 +140,14 @@ GEM
     minitest (5.16.2)
     nio4r (2.5.8)
     nio4r (2.5.8-java)
-    nokogiri (1.13.7)
+    nokogiri (1.13.9)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
-    nokogiri (1.13.7-java)
+    nokogiri (1.13.9-java)
       racc (~> 1.4)
-    nokogiri (1.13.7-x64-mingw32)
+    nokogiri (1.13.9-x64-mingw32)
       racc (~> 1.4)
-    nokogiri (1.13.7-x86-mingw32)
+    nokogiri (1.13.9-x86-mingw32)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.22.1)
@@ -298,7 +298,6 @@ DEPENDENCIES
   jquery-rails
   kaminari
   listen
-  nokogiri (>= 1.13.2)
   puma
   rails (~> 5.2.8.1)
   rspec-rails
