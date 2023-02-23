@@ -36,5 +36,3 @@ module MarketPlaceApi
     config.autoload_paths += %W(\#{config.root}/lib)
   end
 end
-
-Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
